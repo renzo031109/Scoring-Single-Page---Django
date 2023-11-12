@@ -1,0 +1,35 @@
+{% extends 'score/base.html' %}
+
+{% block body %}
+
+
+<div class="container-fluid">
+    <form>
+        <tr>          
+            {{ form }}
+            <td><button class="btn btn-primary">Save</button></td>
+        </tr>
+    </form>
+        <table class="table table-hover">
+            <thead>        
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Score</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            
+                {% for score in scores %}
+            <tr>
+                <th scope="row">{{ score.name }}</th>
+                <td>{{ score.value }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+
+
+{% endblock %}
