@@ -2,12 +2,13 @@
 
 {% block body %}
 
-
+<br/><br/><br/>
 <div class="container-fluid">
-    <form>
-        <tr>          
+    <form method="post" action="{% url 'home' %}">
+        <tr>   
+            {% csrf_token %}       
             {{ form }}
-            <td><button class="btn btn-primary">Save</button></td>
+            <td><button class="btn btn-primary" name="save">Save</button></td>
         </tr>
     </form>
         <table class="table table-hover">
@@ -19,14 +20,17 @@
             </tr>
             </thead>
             <tbody>
-            
-            
+
                 {% for score in scores %}
-            <tr>
-                <th scope="row">{{ score.name }}</th>
-                <td>{{ score.value }}</td>
-            </tr>
-            {% endfor %}
+                <tr>
+                    <th scope="row">{{ score.name }}</th>
+                    <td>{{ score.value }}</td>
+                    <td>
+                        <button name="edit" class="btn btn-success">Edit</button>
+                        <button name="delete" class="btn btn-danger" value="{{ score.id }}">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
 </div>
