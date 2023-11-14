@@ -1,39 +1,30 @@
 {% extends 'score/base.html' %}
-
-{% block body %}
-
-<br/><br/><br/>
-<div class="container-fluid">
-    <form method="post" action="{% url 'home' %}">
-        <tr>   
-            {% csrf_token %}       
-            {{ form }}
-            <td><button class="btn btn-primary" name="save">Save</button></td>
-        </tr>
-    </form>
-        <table class="table table-hover">
-            <thead>        
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Score</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-
-                {% for score in scores %}
-                <tr>
-                    <th scope="row">{{ score.name }}</th>
-                    <td>{{ score.value }}</td>
-                    <td>
-                        <button name="edit" class="btn btn-success">Edit</button>
-                        <button name="delete" class="btn btn-danger" value="{{ score.id }}">Delete</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-</div>
-
+{% block content %}
+<h1>Scoring App</h1>
+<table>
+<form method="post" action="{% url 'home' %}">
+{% csrf_token %}
+<tr><th>Name</th><th>Score</th><th>Action</th></tr>
+{% if not form.instance.id %}
+<tr>
+  {% include 'score/save.html' %}
+</tr>
+{% endif %}
+{% for score in scores %}
+  <tr>
+    {% if form.instance.id == score.id %}
+    {% include 'score/save.html' %}
+    {% else %}
+    <td>{{ score.name }}</td>
+    <td>{{ score.value }}</td>
+    <td>
+      <button formnovalidate name="edit" value="{{ score.id }}" class="btn btn-warning">Edit</button>
+      <button formnovalidate name="delete" value="{{ score.id }}" class="btn btn-danger">Delete</button>
+    </td>
+    {% endif %}
+  </tr>
+{% endfor %}
+</form>
+</table>
 
 {% endblock %}
